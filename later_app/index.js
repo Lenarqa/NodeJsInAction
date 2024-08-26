@@ -1,5 +1,6 @@
 const express = require("express");
 const bodyParser = require("body-parser");
+const Article = require("db").Article;
 
 const app = express();
 const articles = [{ title: "example" }];
@@ -11,7 +12,10 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 /** Get all articles */
 app.get("/articles", (req, res, next) => {
-  res.send(articles);
+  Article.all((err, articles) => {
+    if (err) return next(err);
+    res.send(articles);
+  });
 });
 
 /** Create article */
@@ -24,8 +28,10 @@ app.post("/articles", (req, res, next) => {
 /** Get single article */
 app.get("/articles/:id", (req, res, next) => {
   const id = req.params.id;
-  console.log("Fething ", id);
-  res.send(articles[id]);
+  Article.find(id, (err, article) => {
+    if (err) return next(err);
+    res.send(article);
+  });
 });
 
 /** Delete article */
