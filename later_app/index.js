@@ -10,6 +10,7 @@ const articles = [{ title: "example" }];
 app.set("port", process.env.PORT || 3000);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use("/css/bootstrap.css", express.static("node_modules/bootstrap/dist/css/bootstrap.css"));
 
 /** Get all articles */
 app.get("/articles", (req, res, next) => {
